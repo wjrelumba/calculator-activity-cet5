@@ -154,18 +154,85 @@ plusBtn.addEventListener("click", (event) => {
 })
 
 minusBtn.addEventListener("click", (event) => {
+    firstMultiplier = 1;
+    secondMultiplier = 1;
     subtractionEvent = true;
     firstNumberInput = true;
     if(firstNumberInput == true && secondNumberInput == false){
-        firstOp = parseFloat(calcuScreen.value);
-        calcuScreen.value = "0";
-        decimalPoint = false;
-        secondNumberInput = true;
+        if(decimalPoint == true){
+            firstMultiplier = numberTraversal(calcuScreen.value);
+            firstOp = parseFloat(calcuScreen.value);
+            calcuScreen.value = "0";
+            decimalPoint = false;
+            secondNumberInput = true;
+        }
+        else{
+            firstOp = parseFloat(calcuScreen.value);
+            calcuScreen.value = "0";
+            decimalPoint = false;
+            secondNumberInput = true;
+        }
     }
     else if(firstNumberInput == true && secondNumberInput == true){
-        secondOp = parseFloat(calcuScreen.value);
-        calcuScreen.value = firstOp - secondOp;
-        secondNumberInput = false;
+        if(decimalPoint == true){
+            secondMultiplier = numberTraversal(calcuScreen.value);
+            secondOp = parseFloat(calcuScreen.value);
+            if(firstMultiplier > secondMultiplier){
+                secondMultiplier = firstMultiplier;
+                firstOp *= firstMultiplier;
+                secondOp *= firstMultiplier;
+                var calculation = firstOp - secondOp;
+                calculation /= firstMultiplier;
+                calcuScreen.value = calculation;
+                secondNumberInput = false;
+            }
+            else if(secondMultiplier > firstMultiplier){
+                firstMultiplier = secondMultiplier;
+                firstOp *= firstMultiplier;
+                secondOp *= firstMultiplier;
+                var calculation = firstOp - secondOp;
+                calculation /= firstMultiplier;
+                calcuScreen.value = calculation;
+                secondNumberInput = false;
+            }
+            else{
+                firstOp *= firstMultiplier;
+                secondOp *= firstMultiplier;
+                var calculation = firstOp - secondOp;
+                calculation /= firstMultiplier;
+                calcuScreen.value = calculation;
+                secondNumberInput = false;
+            }
+        }
+        else{
+            secondOp = parseFloat(calcuScreen.value);
+            if(firstMultiplier > secondMultiplier){
+                secondMultiplier = firstMultiplier;
+                firstOp *= firstMultiplier;
+                secondOp *= firstMultiplier;
+                var calculation = firstOp - secondOp;
+                calculation /= firstMultiplier;
+                calcuScreen.value = calculation;
+                secondNumberInput = false;
+            }
+            else if(secondMultiplier > firstMultiplier){
+                firstMultiplier = secondMultiplier;
+                firstOp *= firstMultiplier;
+                secondOp *= firstMultiplier;
+                var calculation = firstOp - secondOp;
+                calculation /= firstMultiplier;
+                calcuScreen.value = calculation;
+                secondNumberInput = false;
+            }
+            else{
+                firstOp *= firstMultiplier;
+                secondOp *= firstMultiplier;
+                var calculation = firstOp - secondOp;
+                calculation /= firstMultiplier;
+                calcuScreen.value = calculation;
+                secondNumberInput = false;
+            }
+        }
     }
 })
 
@@ -189,15 +256,42 @@ multiplyBtn.addEventListener("click", (event) => {
     multiplicationEvent = true;
     firstNumberInput = true;
     if(firstNumberInput == true && secondNumberInput == false){
-        firstOp = parseFloat(calcuScreen.value);
-        calcuScreen.value = "";
-        decimalPoint = false;
-        secondNumberInput = true;
+        if(decimalPoint == true){
+            firstMultiplier = numberTraversal(calcuScreen.value);
+            firstOp = parseFloat(calcuScreen.value);
+            calcuScreen.value = "0";
+            decimalPoint = false;
+            secondNumberInput = true;
+        }
+        else{
+            firstOp = parseFloat(calcuScreen.value);
+            calcuScreen.value = "0";
+            decimalPoint = false;
+            secondNumberInput = true;
+        }
     }
     else if(firstNumberInput == true && secondNumberInput == true){
-        secondOp = parseFloat(calcuScreen.value);
-        calcuScreen.value = firstOp / secondOp;
-        secondNumberInput = false;
+        if(decimalPoint == true){
+            secondMultiplier = numberTraversal(calcuScreen.value);
+            secondOp = parseFloat(calcuScreen.value);
+            var finalMultiplier = firstMultiplier * secondMultiplier;
+            firstOp *= firstMultiplier;
+            secondOp *= secondMultiplier;
+            var calculation = firstOp * secondOp;
+            calculation /= finalMultiplier;
+            calcuScreen.value = calculation;
+            secondNumberInput = false;
+        }
+        else{
+            secondOp = parseFloat(calcuScreen.value);
+            var finalMultiplier = firstMultiplier * secondMultiplier;
+            firstOp *= firstMultiplier;
+            secondOp *= secondMultiplier;
+            var calculation = firstOp * secondOp;
+            calculation /= finalMultiplier;
+            calcuScreen.value = calculation;
+            secondNumberInput = false;
+        }
     }
 })
 
@@ -205,20 +299,186 @@ equalBtn.addEventListener("click", () => {
     if(firstNumberInput == true && secondNumberInput == true){
         secondOp = parseFloat(calcuScreen.value);
         if(additionEvent == true){
-            calcuScreen.value = firstOp + secondOp;
-            calculated = true;
-            firstNumberInput = false;
-            secondNumberInput = false;
-            additionEvent = false;
-            decimalPoint = false;
+            if(decimalPoint == true){
+                secondMultiplier = numberTraversal(calcuScreen.value);
+                secondOp = parseFloat(calcuScreen.value);
+                if(firstMultiplier > secondMultiplier){
+                    secondMultiplier = firstMultiplier;
+                    firstOp *= firstMultiplier;
+                    secondOp *= firstMultiplier;
+                    var calculation = firstOp + secondOp;
+                    calculation /= firstMultiplier;
+                    calcuScreen.value = calculation;
+                    secondNumberInput = false;
+
+                    calculated = true;
+                    firstNumberInput = false;
+                    additionEvent = false;
+                    decimalPoint = false;
+                }
+                else if(secondMultiplier > firstMultiplier){
+                    firstMultiplier = secondMultiplier;
+                    firstOp *= firstMultiplier;
+                    secondOp *= firstMultiplier;
+                    var calculation = firstOp + secondOp;
+                    calculation /= firstMultiplier;
+                    calcuScreen.value = calculation;
+                    secondNumberInput = false;
+
+                    calculated = true;
+                    firstNumberInput = false;
+                    additionEvent = false;
+                    decimalPoint = false;
+                }
+                else{
+                    firstOp *= firstMultiplier;
+                    secondOp *= firstMultiplier;
+                    var calculation = firstOp + secondOp;
+                    calculation /= firstMultiplier;
+                    calcuScreen.value = calculation;
+                    secondNumberInput = false;
+
+                    calculated = true;
+                    firstNumberInput = false;
+                    additionEvent = false;
+                    decimalPoint = false;
+                }
+            }
+            else{
+                secondOp = parseFloat(calcuScreen.value);
+                if(firstMultiplier > secondMultiplier){
+                    secondMultiplier = firstMultiplier;
+                    firstOp *= firstMultiplier;
+                    secondOp *= firstMultiplier;
+                    var calculation = firstOp + secondOp;
+                    calculation /= firstMultiplier;
+                    calcuScreen.value = calculation;
+                    secondNumberInput = false;
+
+                    calculated = true;
+                    firstNumberInput = false;
+                    additionEvent = false;
+                    decimalPoint = false;
+                }
+                else if(secondMultiplier > firstMultiplier){
+                    firstMultiplier = secondMultiplier;
+                    firstOp *= firstMultiplier;
+                    secondOp *= firstMultiplier;
+                    var calculation = firstOp + secondOp;
+                    calculation /= firstMultiplier;
+                    calcuScreen.value = calculation;
+                    secondNumberInput = false;
+
+                    calculated = true;
+                    firstNumberInput = false;
+                    additionEvent = false;
+                    decimalPoint = false;
+                }
+                else{
+                    firstOp *= firstMultiplier;
+                    secondOp *= firstMultiplier;
+                    var calculation = firstOp + secondOp;
+                    calculation /= firstMultiplier;
+                    calcuScreen.value = calculation;
+                    secondNumberInput = false;
+
+                    calculated = true;
+                    firstNumberInput = false;
+                    additionEvent = false;
+                    decimalPoint = false;
+                }
+            }
         }
         else if(subtractionEvent == true){
-            calcuScreen.value = firstOp - secondOp;
-            calculated = true;
-            firstNumberInput = false;
-            secondNumberInput = false;
-            subtractionEvent = false;
-            decimalPoint = false;
+            if(decimalPoint == true){
+                secondMultiplier = numberTraversal(calcuScreen.value);
+                secondOp = parseFloat(calcuScreen.value);
+                if(firstMultiplier > secondMultiplier){
+                    secondMultiplier = firstMultiplier;
+                    firstOp *= firstMultiplier;
+                    secondOp *= firstMultiplier;
+                    var calculation = firstOp - secondOp;
+                    calculation /= firstMultiplier;
+                    calcuScreen.value = calculation;
+                    secondNumberInput = false;
+
+                    calculated = true;
+                    firstNumberInput = false;
+                    subtractionEvent = false;
+                    decimalPoint = false;
+                }
+                else if(secondMultiplier > firstMultiplier){
+                    firstMultiplier = secondMultiplier;
+                    firstOp *= firstMultiplier;
+                    secondOp *= firstMultiplier;
+                    var calculation = firstOp - secondOp;
+                    calculation /= firstMultiplier;
+                    calcuScreen.value = calculation;
+                    secondNumberInput = false;
+
+                    calculated = true;
+                    firstNumberInput = false;
+                    subtractionEvent = false;
+                    decimalPoint = false;
+                }
+                else{
+                    firstOp *= firstMultiplier;
+                    secondOp *= firstMultiplier;
+                    var calculation = firstOp - secondOp;
+                    calculation /= firstMultiplier;
+                    calcuScreen.value = calculation;
+                    secondNumberInput = false;
+
+                    calculated = true;
+                    firstNumberInput = false;
+                    subtractionEvent = false;
+                    decimalPoint = false;
+                }
+            }
+            else{
+                secondOp = parseFloat(calcuScreen.value);
+                if(firstMultiplier > secondMultiplier){
+                    secondMultiplier = firstMultiplier;
+                    firstOp *= firstMultiplier;
+                    secondOp *= firstMultiplier;
+                    var calculation = firstOp - secondOp;
+                    calculation /= firstMultiplier;
+                    calcuScreen.value = calculation;
+                    secondNumberInput = false;
+
+                    calculated = true;
+                    firstNumberInput = false;
+                    subtractionEvent = false;
+                    decimalPoint = false;
+                }
+                else if(secondMultiplier > firstMultiplier){
+                    firstMultiplier = secondMultiplier;
+                    firstOp *= firstMultiplier;
+                    secondOp *= firstMultiplier;
+                    var calculation = firstOp - secondOp;
+                    calculation /= firstMultiplier;
+                    calcuScreen.value = calculation;
+                    secondNumberInput = false;
+
+                    calculated = true;
+                    firstNumberInput = false;
+                    subtractionEvent = false;
+                    decimalPoint = false;
+                }
+                else{
+                    firstOp *= firstMultiplier;
+                    secondOp *= firstMultiplier;
+                    var calculation = firstOp - secondOp;
+                    calculation /= firstMultiplier;
+                    calcuScreen.value = calculation;
+                    secondNumberInput = false;
+
+                    calculated = true;
+                    firstNumberInput = false;
+                    subtractionEvent = false;
+                    decimalPoint = false;
+                }
+            }
         }
         else if(divisionEvent == true){
             calcuScreen.value = firstOp / secondOp;
@@ -229,12 +489,37 @@ equalBtn.addEventListener("click", () => {
             decimalPoint = false;
         }
         else if(multiplicationEvent == true) {
-            calcuScreen.value = firstOp * secondOp;
-            calculated = true;
-            firstNumberInput = false;
-            secondNumberInput = false;
-            multiplicationEvent = false;
-            decimalPoint = false;
+            if(decimalPoint == true){
+                secondMultiplier = numberTraversal(calcuScreen.value);
+                secondOp = parseFloat(calcuScreen.value);
+                var finalMultiplier = firstMultiplier * secondMultiplier;
+                firstOp *= firstMultiplier;
+                secondOp *= secondMultiplier;
+                var calculation = firstOp * secondOp;
+                calculation /= finalMultiplier;
+                calcuScreen.value = calculation;
+                secondNumberInput = false;
+
+                calculated = true;
+                firstNumberInput = false;
+                multiplicationEvent = false;
+                decimalPoint = false;
+            }
+            else{
+                secondOp = parseFloat(calcuScreen.value);
+                var finalMultiplier = firstMultiplier * secondMultiplier;
+                firstOp *= firstMultiplier;
+                secondOp *= secondMultiplier;
+                var calculation = firstOp * secondOp;
+                calculation /= finalMultiplier;
+                calcuScreen.value = calculation;
+                secondNumberInput = false;
+
+                calculated = true;
+                firstNumberInput = false;
+                multiplicationEvent = false;
+                decimalPoint = false;
+            }
         }
     }
 })
@@ -250,10 +535,6 @@ const numberTraversal = (numberValue) => {
                 multiplierNumber = parseInt(multiplier);
             }
             numberValue *= multiplierNumber;
-            alert(numberValue);
-            // var wholeNumbers = (numberValue).slice(0, i);
-            // var decimalNumbers = (numberValue).slice(i+1, numberValue.length);
-            // alert("Whole numbers: " + wholeNumbers + " Decimal Numbers: " + decimalNumbers);
         }
     }
     console.log(multiplier);
