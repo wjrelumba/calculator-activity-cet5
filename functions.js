@@ -8,6 +8,8 @@ const minusBtn = document.getElementById("minus");
 const divideBtn = document.getElementById("divide");
 const multiplyBtn = document.getElementById("multiply");
 
+const binaryBtn = document.getElementById("binaryConverter");
+
 const equalBtn = document.getElementById("equal");
 
 const memPlusBtn = document.getElementById("memoryPlus");
@@ -19,6 +21,8 @@ var secondNumberInput = false;
 
 var calculated = false;
 
+var decimalNumber = "0";
+
 var additionEvent = false;
 var subtractionEvent = false;
 var multiplicationEvent = false;
@@ -27,6 +31,9 @@ var divisionEvent = false;
 var decimalPoint = false;
 
 var calcuMemory = "0";
+
+var binaryMode = false;
+var decimalMode = true;
 
 var firstMultiplier = 1;
 var secondMultiplier = 1;
@@ -38,38 +45,61 @@ calcuScreen.value = 0;
 
 Array.from(buttonClicked).forEach(btn => {
     btn.addEventListener("click", (event) => {
-        var valueClicked = event.target.value;
-        if(calculated == true){
-            calcuScreen.value = "0";
-            calculated = false;
-            calcuScreen.value = valueClicked;
-        }
-        else{
-            if(calcuScreen.value == "0"){
-                if(valueClicked == "."){
-                    if(decimalPoint == false){
-                        calcuScreen.value += valueClicked;
-                        decimalPoint = true;
-                    }
-                }
-                else{
-                    calcuScreen.value = valueClicked;
-                }
+        if((calcuScreen.value).length < 8){
+            var valueClicked = event.target.value;
+            if(calculated == true){
+                calcuScreen.value = "0";
+                calculated = false;
+                calcuScreen.value = valueClicked;
             }
             else{
-                if(valueClicked == "."){
-                    if(decimalPoint == false){
-                        calcuScreen.value += valueClicked;
-                        decimalPoint = true;
+                if(calcuScreen.value == "0"){
+                    if(valueClicked == "."){
+                        if(decimalPoint == false){
+                            calcuScreen.value += valueClicked;
+                            decimalPoint = true;
+                        }
+                    }
+                    else{
+                        calcuScreen.value = valueClicked;
                     }
                 }
                 else{
-                    calcuScreen.value += valueClicked;
+                    if(valueClicked == "."){
+                        if(decimalPoint == false){
+                            calcuScreen.value += valueClicked;
+                            decimalPoint = true;
+                        }
+                    }
+                    else{
+                        calcuScreen.value += valueClicked;
+                    }
                 }
             }
         }
     })
 });
+
+binaryBtn.addEventListener("click", () => {
+    console.log("Binary: " + binaryMode + " Decimal: " + decimalMode);
+    console.log(decimalNumber);
+    if(binaryMode == false && decimalMode == true){
+        decimalNumber = calcuScreen.value;
+        var binaryNumber = parseFloat(decimalNumber);
+        var result = binaryNumber.toString(2);
+        calcuScreen.value = limitCutter(result);
+        binaryMode = true;
+        decimalMode = false;
+        console.log("Binary: " + binaryMode + " Decimal: " + decimalMode);
+    }
+    else if(binaryMode == true && decimalMode == false){
+        console.log(decimalNumber);
+        calcuScreen.value = decimalNumber;
+        binaryMode = false;
+        decimalMode = true;
+        console.log("Binary: " + binaryMode + " Decimal: " + decimalMode);
+    }
+})
 
 memPlusBtn.addEventListener("click", () => {
     if(calcuMemory == "0") {
@@ -86,11 +116,17 @@ memPlusBtn.addEventListener("click", () => {
         if(decimalPoint == true){
             var calcuMemMultiplier = numberTraversal(calcuMemory);
             var calcuScreenMultiplier = numberTraversal(calcuScreen.value);
+            if(calcuMemMultiplier == undefined){
+                calcuMemMultiplier = "1";
+            }
+            if(calcuScreenMultiplier == undefined){
+                calcuScreenMultiplier = "1";
+            }
             if(calcuMemMultiplier > calcuScreenMultiplier){
                 var calcuMemInt = (parseFloat(calcuMemory)) * parseInt(calcuMemMultiplier);
                 var calcuScreenInt = (parseFloat(calcuScreen.value)) * parseInt(calcuMemMultiplier);
                 var calculation = calcuScreenInt + calcuMemInt;
-                calculation /= calcuMemMultiplier;
+                calculation /= parseInt(calcuMemMultiplier);
                 calcuScreen.value = calculation;
                 calculated = true;
                 decimalPoint = false;
@@ -99,7 +135,7 @@ memPlusBtn.addEventListener("click", () => {
                 var calcuMemInt = (parseFloat(calcuMemory)) * parseInt(calcuScreenMultiplier);
                 var calcuScreenInt = (parseFloat(calcuScreen.value)) * parseInt(calcuScreenMultiplier);
                 var calculation = calcuScreenInt + calcuMemInt;
-                calculation /= calcuScreenMultiplier;
+                calculation /= parseInt(calcuScreenMultiplier);
                 calcuScreen.value = calculation;
                 calculated = true;
                 decimalPoint = false;
@@ -108,21 +144,26 @@ memPlusBtn.addEventListener("click", () => {
                 var calcuMemInt = (parseFloat(calcuMemory)) * parseInt(calcuMemMultiplier);
                 var calcuScreenInt = (parseFloat(calcuScreen.value)) * parseInt(calcuMemMultiplier);
                 var calculation = calcuScreenInt + calcuMemInt;
-                calculation /= calcuMemMultiplier;
+                calculation /= parseInt(calcuMemMultiplier);
                 calcuScreen.value = calculation;
                 calculated = true;
                 decimalPoint = false;
             }    
         }
         else{
+            console.log(calcuScreenMultiplier);
             var calcuMemMultiplier = numberTraversal(calcuMemory);
+            var calcuScreenMultiplier = numberTraversal(calcuScreen.value);
             if(calcuMemMultiplier == undefined){
                 calcuMemMultiplier = "1";
+            }
+            if(calcuScreenMultiplier == undefined){
+                calcuScreenMultiplier = "1";
             }
             var calcuMemInt = (parseFloat(calcuMemory)) * parseInt(calcuMemMultiplier);
             var calcuScreenInt = (parseFloat(calcuScreen.value)) * parseInt(calcuMemMultiplier);
             var calculation = calcuScreenInt + calcuMemInt;
-            calculation /= calcuMemMultiplier;
+            calculation /= parseInt(calcuMemMultiplier);
             calcuScreen.value = calculation;
             calculated = true;
             decimalPoint = false;
@@ -135,11 +176,17 @@ memMinusBtn.addEventListener("click", () => {
         if(decimalPoint == true){
             var calcuMemMultiplier = numberTraversal(calcuMemory);
             var calcuScreenMultiplier = numberTraversal(calcuScreen.value);
+            if(calcuMemMultiplier == undefined){
+                calcuMemMultiplier = "1";
+            }
+            if(calcuScreenMultiplier == undefined){
+                calcuScreenMultiplier = "1";
+            }
             if(calcuMemMultiplier > calcuScreenMultiplier){
                 var calcuMemInt = (parseFloat(calcuMemory)) * parseInt(calcuMemMultiplier);
                 var calcuScreenInt = (parseFloat(calcuScreen.value)) * parseInt(calcuMemMultiplier);
                 var calculation = calcuScreenInt - calcuMemInt;
-                calculation /= calcuMemMultiplier;
+                calculation /= parseInt(calcuMemMultiplier);
                 calcuScreen.value = calculation;
                 calculated = true;
                 decimalPoint = false;
@@ -148,7 +195,7 @@ memMinusBtn.addEventListener("click", () => {
                 var calcuMemInt = (parseFloat(calcuMemory)) * parseInt(calcuScreenMultiplier);
                 var calcuScreenInt = (parseFloat(calcuScreen.value)) * parseInt(calcuScreenMultiplier);
                 var calculation = calcuScreenInt - calcuMemInt;
-                calculation /= calcuScreenMultiplier;
+                calculation /= parseInt(calcuScreenMultiplier);
                 calcuScreen.value = calculation;
                 calculated = true;
                 decimalPoint = false;
@@ -157,7 +204,7 @@ memMinusBtn.addEventListener("click", () => {
                 var calcuMemInt = (parseFloat(calcuMemory)) * parseInt(calcuMemMultiplier);
                 var calcuScreenInt = (parseFloat(calcuScreen.value)) * parseInt(calcuMemMultiplier);
                 var calculation = calcuScreenInt - calcuMemInt;
-                calculation /= calcuMemMultiplier;
+                calculation /= parseInt(calcuMemMultiplier);
                 calcuScreen.value = calculation;
                 calculated = true;
                 decimalPoint = false;
@@ -165,13 +212,17 @@ memMinusBtn.addEventListener("click", () => {
         }
         else{
             var calcuMemMultiplier = numberTraversal(calcuMemory);
+            var calcuScreenMultiplier = numberTraversal(calcuScreen.value);
             if(calcuMemMultiplier == undefined){
                 calcuMemMultiplier = "1";
+            }
+            if(calcuScreenMultiplier == undefined){
+                calcuScreenMultiplier = "1";
             }
             var calcuMemInt = (parseFloat(calcuMemory)) * parseInt(calcuMemMultiplier);
             var calcuScreenInt = (parseFloat(calcuScreen.value)) * parseInt(calcuMemMultiplier);
             var calculation = calcuScreenInt - calcuMemInt;
-            calculation /= calcuMemMultiplier;
+            calculation /= parseInt(calcuMemMultiplier);
             calcuScreen.value = calculation;
             calculated = true;
             decimalPoint = false;
@@ -180,8 +231,13 @@ memMinusBtn.addEventListener("click", () => {
 });
 
 memClearBtn.addEventListener("click", () => {
-    alert("Memory Cleared");
-    calcuMemory = "0";
+    if(calcuMemory == "0"){
+        alert("No memory stored");
+    }
+    else{
+        alert("Memory Cleared");
+        calcuMemory = "0";
+    }
 });
 
 clearBtn.addEventListener("click", () => {
@@ -427,7 +483,8 @@ equalBtn.addEventListener("click", () => {
                     secondOp *= firstMultiplier;
                     var calculation = firstOp + secondOp;
                     calculation /= firstMultiplier;
-                    calcuScreen.value = calculation;
+                    var calculatedFinal = parseFloat(limitCutter(calculation));
+                    calcuScreen.value = calculatedFinal;
                     secondNumberInput = false;
 
                     calculated = true;
@@ -441,7 +498,8 @@ equalBtn.addEventListener("click", () => {
                     secondOp *= firstMultiplier;
                     var calculation = firstOp + secondOp;
                     calculation /= firstMultiplier;
-                    calcuScreen.value = calculation;
+                    var calculatedFinal = parseFloat(limitCutter(calculation));
+                    calcuScreen.value = calculatedFinal;
                     secondNumberInput = false;
 
                     calculated = true;
@@ -454,7 +512,8 @@ equalBtn.addEventListener("click", () => {
                     secondOp *= firstMultiplier;
                     var calculation = firstOp + secondOp;
                     calculation /= firstMultiplier;
-                    calcuScreen.value = calculation;
+                    var calculatedFinal = parseFloat(limitCutter(calculation));
+                    calcuScreen.value = calculatedFinal;
                     secondNumberInput = false;
 
                     calculated = true;
@@ -471,7 +530,8 @@ equalBtn.addEventListener("click", () => {
                     secondOp *= firstMultiplier;
                     var calculation = firstOp + secondOp;
                     calculation /= firstMultiplier;
-                    calcuScreen.value = calculation;
+                    var calculatedFinal = parseFloat(limitCutter(calculation));
+                    calcuScreen.value = calculatedFinal;
                     secondNumberInput = false;
 
                     calculated = true;
@@ -485,7 +545,8 @@ equalBtn.addEventListener("click", () => {
                     secondOp *= firstMultiplier;
                     var calculation = firstOp + secondOp;
                     calculation /= firstMultiplier;
-                    calcuScreen.value = calculation;
+                    var calculatedFinal = parseFloat(limitCutter(calculation));
+                    calcuScreen.value = calculatedFinal;
                     secondNumberInput = false;
 
                     calculated = true;
@@ -498,7 +559,8 @@ equalBtn.addEventListener("click", () => {
                     secondOp *= firstMultiplier;
                     var calculation = firstOp + secondOp;
                     calculation /= firstMultiplier;
-                    calcuScreen.value = calculation;
+                    var calculatedFinal = parseFloat(limitCutter(calculation));
+                    calcuScreen.value = calculatedFinal;
                     secondNumberInput = false;
 
                     calculated = true;
@@ -518,7 +580,8 @@ equalBtn.addEventListener("click", () => {
                     secondOp *= firstMultiplier;
                     var calculation = firstOp - secondOp;
                     calculation /= firstMultiplier;
-                    calcuScreen.value = calculation;
+                    var calculatedFinal = parseFloat(limitCutter(calculation));
+                    calcuScreen.value = calculatedFinal;
                     secondNumberInput = false;
 
                     calculated = true;
@@ -532,7 +595,8 @@ equalBtn.addEventListener("click", () => {
                     secondOp *= firstMultiplier;
                     var calculation = firstOp - secondOp;
                     calculation /= firstMultiplier;
-                    calcuScreen.value = calculation;
+                    var calculatedFinal = parseFloat(limitCutter(calculation));
+                    calcuScreen.value = calculatedFinal;
                     secondNumberInput = false;
 
                     calculated = true;
@@ -545,7 +609,8 @@ equalBtn.addEventListener("click", () => {
                     secondOp *= firstMultiplier;
                     var calculation = firstOp - secondOp;
                     calculation /= firstMultiplier;
-                    calcuScreen.value = calculation;
+                    var calculatedFinal = parseFloat(limitCutter(calculation));
+                    calcuScreen.value = calculatedFinal;
                     secondNumberInput = false;
 
                     calculated = true;
@@ -562,7 +627,8 @@ equalBtn.addEventListener("click", () => {
                     secondOp *= firstMultiplier;
                     var calculation = firstOp - secondOp;
                     calculation /= firstMultiplier;
-                    calcuScreen.value = calculation;
+                    var calculatedFinal = parseFloat(limitCutter(calculation));
+                    calcuScreen.value = calculatedFinal;
                     secondNumberInput = false;
 
                     calculated = true;
@@ -576,7 +642,8 @@ equalBtn.addEventListener("click", () => {
                     secondOp *= firstMultiplier;
                     var calculation = firstOp - secondOp;
                     calculation /= firstMultiplier;
-                    calcuScreen.value = calculation;
+                    var calculatedFinal = parseFloat(limitCutter(calculation));
+                    calcuScreen.value = calculatedFinal;
                     secondNumberInput = false;
 
                     calculated = true;
@@ -589,7 +656,8 @@ equalBtn.addEventListener("click", () => {
                     secondOp *= firstMultiplier;
                     var calculation = firstOp - secondOp;
                     calculation /= firstMultiplier;
-                    calcuScreen.value = calculation;
+                    var calculatedFinal = parseFloat(limitCutter(calculation));
+                    calcuScreen.value = calculatedFinal;
                     secondNumberInput = false;
 
                     calculated = true;
@@ -600,7 +668,9 @@ equalBtn.addEventListener("click", () => {
             }
         }
         else if(divisionEvent == true){
-            calcuScreen.value = firstOp / secondOp;
+            var calculation = firstOp / secondOp;
+            var calculatedFinal = parseFloat(limitCutter(calculation));
+            calcuScreen.value = calculatedFinal;
             calculated = true;
             firstNumberInput = false;
             secondNumberInput = false;
@@ -616,7 +686,8 @@ equalBtn.addEventListener("click", () => {
                 secondOp *= secondMultiplier;
                 var calculation = firstOp * secondOp;
                 calculation /= finalMultiplier;
-                calcuScreen.value = calculation;
+                var calculatedFinal = parseFloat(limitCutter(calculation));
+                calcuScreen.value = calculatedFinal;
                 secondNumberInput = false;
 
                 calculated = true;
@@ -631,7 +702,8 @@ equalBtn.addEventListener("click", () => {
                 secondOp *= secondMultiplier;
                 var calculation = firstOp * secondOp;
                 calculation /= finalMultiplier;
-                calcuScreen.value = calculation;
+                var calculatedFinal = parseFloat(limitCutter(calculation));
+                calcuScreen.value = calculatedFinal;
                 secondNumberInput = false;
 
                 calculated = true;
@@ -657,4 +729,19 @@ const numberTraversal = (numberValue) => {
     }
     console.log(multiplier);
     return multiplier;
+}
+
+const limitCutter = (numberValue) => {
+    var result = "";
+    var number = String(numberValue);
+    for(let i = 0; i < 8; i++){
+        if(number[i] === undefined){
+            break
+        }
+        console.log(number)
+        console.log(number[i]);
+        result += number[i];
+    }
+    console.log(result);
+    return result;
 }

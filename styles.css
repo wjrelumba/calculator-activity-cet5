@@ -1,0 +1,35 @@
+.calculator {
+    position: absolute;
+    margin-left: 550px;
+    margin-top: 90px;
+    background-color:#81b265;
+    width: 200px;
+    height: 340px;
+    border: 1px solid black;
+}
+
+.header {
+    text-align: center;
+}
+
+#calcuScreen {
+    width: 190px;
+    font-size: 40px;
+    text-align: right;
+    height: 50px;
+}
+
+.calcuBtnNumber {
+    width: 45px;
+    height: 45px;
+}
+
+.calcuBtn {
+    width: 45px;
+    height: 45px;
+}
+
+.binaryConverter {
+    width: 192px;
+    height: 45px;
+}

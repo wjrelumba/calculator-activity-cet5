@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
+    <link rel="stylesheet" href="styles.css" type="text/css">
 </head>
 <body>
+    <div class="header">
+        <h1>Elumba, William James' Calculator</h1>
+    </div>
     <div class="calculator">
         <div class="calcuScreen">
-            <input type="text" id="calcuScreen" value="" readonly>
+            <input type="text" id="calcuScreen" readonly>
         </div>
         <div class="calcuButtons">
             <div class="buttonDesign" id="firstCol">
@@ -16,7 +20,6 @@
                 <button type="button" class="calcuBtn" value="" id="memoryPlus">M+</button>
                 <button type="button" class="calcuBtn" value="" id="memoryMinus">M-</button>
                 <button type="button" class="calcuBtn" value="" id="memoryClear">MC</button>
-                
             </div>
             <div class="buttonDesign" id="secondCol">
                 <button type="button" class="calcuBtnNumber" value="7" id="seven">7</button>
@@ -41,6 +44,9 @@
                 <button type="button" class="calcuBtnNumber" value="." id="decimal">.</button>
                 <button type="button" class="calcuBtn" value="" id="equal">=</button>
                 <button type="button" class="calcuBtn" value="" id="plus">+</button>
+            </div>
+            <div class="buttonDesign" id="sixthCol">
+                <button type="button" class="binaryConverter" id="binaryConverter">Bin</button>
             </div>
         </div>
     </div>
