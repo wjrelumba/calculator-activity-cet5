@@ -10,6 +10,10 @@ const multiplyBtn = document.getElementById("multiply");
 
 const equalBtn = document.getElementById("equal");
 
+const memPlusBtn = document.getElementById("memoryPlus");
+const memMinusBtn = document.getElementById("memoryMinus");
+const memClearBtn = document.getElementById("memoryClear");
+
 var firstNumberInput = false;
 var secondNumberInput = false;
 
@@ -21,6 +25,8 @@ var multiplicationEvent = false;
 var divisionEvent = false;
 
 var decimalPoint = false;
+
+var calcuMemory = "0";
 
 var firstMultiplier = 1;
 var secondMultiplier = 1;
@@ -63,6 +69,119 @@ Array.from(buttonClicked).forEach(btn => {
             }
         }
     })
+});
+
+memPlusBtn.addEventListener("click", () => {
+    if(calcuMemory == "0") {
+        if(calcuScreen.value !== "0"){
+            calcuMemory = calcuScreen.value
+            alert("Memory captured: " + calcuMemory);
+            calcuScreen.value = "0";
+            decimalPoint = false;
+            firstNumberInput = true;
+        }
+        else{}     
+    }
+    else if(calcuScreen.value !== null){
+        if(decimalPoint == true){
+            var calcuMemMultiplier = numberTraversal(calcuMemory);
+            var calcuScreenMultiplier = numberTraversal(calcuScreen.value);
+            if(calcuMemMultiplier > calcuScreenMultiplier){
+                var calcuMemInt = (parseFloat(calcuMemory)) * parseInt(calcuMemMultiplier);
+                var calcuScreenInt = (parseFloat(calcuScreen.value)) * parseInt(calcuMemMultiplier);
+                var calculation = calcuScreenInt + calcuMemInt;
+                calculation /= calcuMemMultiplier;
+                calcuScreen.value = calculation;
+                calculated = true;
+                decimalPoint = false;
+            }
+            else if(calcuMemMultiplier < calcuScreenMultiplier){
+                var calcuMemInt = (parseFloat(calcuMemory)) * parseInt(calcuScreenMultiplier);
+                var calcuScreenInt = (parseFloat(calcuScreen.value)) * parseInt(calcuScreenMultiplier);
+                var calculation = calcuScreenInt + calcuMemInt;
+                calculation /= calcuScreenMultiplier;
+                calcuScreen.value = calculation;
+                calculated = true;
+                decimalPoint = false;
+            }
+            else{
+                var calcuMemInt = (parseFloat(calcuMemory)) * parseInt(calcuMemMultiplier);
+                var calcuScreenInt = (parseFloat(calcuScreen.value)) * parseInt(calcuMemMultiplier);
+                var calculation = calcuScreenInt + calcuMemInt;
+                calculation /= calcuMemMultiplier;
+                calcuScreen.value = calculation;
+                calculated = true;
+                decimalPoint = false;
+            }    
+        }
+        else{
+            var calcuMemMultiplier = numberTraversal(calcuMemory);
+            if(calcuMemMultiplier == undefined){
+                calcuMemMultiplier = "1";
+            }
+            var calcuMemInt = (parseFloat(calcuMemory)) * parseInt(calcuMemMultiplier);
+            var calcuScreenInt = (parseFloat(calcuScreen.value)) * parseInt(calcuMemMultiplier);
+            var calculation = calcuScreenInt + calcuMemInt;
+            calculation /= calcuMemMultiplier;
+            calcuScreen.value = calculation;
+            calculated = true;
+            decimalPoint = false;
+        }
+    }
+});
+
+memMinusBtn.addEventListener("click", () => {
+    if(calcuScreen.value !== null){
+        if(decimalPoint == true){
+            var calcuMemMultiplier = numberTraversal(calcuMemory);
+            var calcuScreenMultiplier = numberTraversal(calcuScreen.value);
+            if(calcuMemMultiplier > calcuScreenMultiplier){
+                var calcuMemInt = (parseFloat(calcuMemory)) * parseInt(calcuMemMultiplier);
+                var calcuScreenInt = (parseFloat(calcuScreen.value)) * parseInt(calcuMemMultiplier);
+                var calculation = calcuScreenInt - calcuMemInt;
+                calculation /= calcuMemMultiplier;
+                calcuScreen.value = calculation;
+                calculated = true;
+                decimalPoint = false;
+            }
+            else if(calcuMemMultiplier < calcuScreenMultiplier){
+                var calcuMemInt = (parseFloat(calcuMemory)) * parseInt(calcuScreenMultiplier);
+                var calcuScreenInt = (parseFloat(calcuScreen.value)) * parseInt(calcuScreenMultiplier);
+                var calculation = calcuScreenInt - calcuMemInt;
+                calculation /= calcuScreenMultiplier;
+                calcuScreen.value = calculation;
+                calculated = true;
+                decimalPoint = false;
+            }
+            else{
+                var calcuMemInt = (parseFloat(calcuMemory)) * parseInt(calcuMemMultiplier);
+                var calcuScreenInt = (parseFloat(calcuScreen.value)) * parseInt(calcuMemMultiplier);
+                var calculation = calcuScreenInt - calcuMemInt;
+                calculation /= calcuMemMultiplier;
+                calcuScreen.value = calculation;
+                calculated = true;
+                decimalPoint = false;
+            }    
+        }
+        else{
+            var calcuMemMultiplier = numberTraversal(calcuMemory);
+            if(calcuMemMultiplier == undefined){
+                calcuMemMultiplier = "1";
+            }
+            var calcuMemInt = (parseFloat(calcuMemory)) * parseInt(calcuMemMultiplier);
+            var calcuScreenInt = (parseFloat(calcuScreen.value)) * parseInt(calcuMemMultiplier);
+            var calculation = calcuScreenInt - calcuMemInt;
+            calculation /= calcuMemMultiplier;
+            calcuScreen.value = calculation;
+            calculated = true;
+            decimalPoint = false;
+        }
+    }
+});
+
+memClearBtn.addEventListener("click", () => {
+    alert("Memory Cleared");
+    calcuMemory = "0";
 });
 
 clearBtn.addEventListener("click", () => {
@@ -534,7 +653,6 @@ const numberTraversal = (numberValue) => {
                 multiplier += "0";
                 multiplierNumber = parseInt(multiplier);
             }
-            numberValue *= multiplierNumber;
         }
     }
     console.log(multiplier);
